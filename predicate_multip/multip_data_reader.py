@@ -12,6 +12,7 @@ import json
 import json
 import os
 import sys
+import torch
 sys.getdefaultencoding()
 'utf-8'
 
@@ -199,30 +200,57 @@ class RcDataReader(object):
         p_eng = self._reverse_dict[dict_name][label_idx]
         return self._reverse_dict['eng_map_p_dict'][p_eng]
 
-def data_loader():
-    ttt = data_generator.get_test_reader()
 
-    for index, features in enumerate(ttt()):
-        input_sent, word_idx_list, postag_list, label_list = features
-        print(input_sent)
-        print('1st features:', len(word_idx_list), word_idx_list)
-        print('2nd features:', len(postag_list), postag_list)
-        print('3rd features:', len(label_list), '\t', label_list)
+class DataGen(object):
+    def __init__(self, is_train, batch_size):
+        self.batch_size = batch_size
+        self._train = is_train
+        self.reader = RcDataReader(wordemb_dict_path='../../data/dict/word_idx',
+                                   postag_dict_path='../../data/dict/postag_dict',
+                                   label_dict_path='../../data/dict/p_eng',
+                                   train_data_list_path='../../data/train_data.json',
+                                   test_data_list_path='../../data//dev_data.json')
 
-if __name__ == '__main__':
+        self.train_data = self.reader.get_train_reader()
+        self.test_data = self.reader.get_test_reader()
+        self.predict_data = self.reader.get_test_reader()
+
+    def __iter__(self):
+        if self._train is True:
+            w = []
+            p = []
+            l = []
+            for data in self.train_data():
+                word_idx_list, postag_list, label_list = data
+                w.append(word_idx_list)
+                p.append(postag_list)
+                l.append(label_list)
+            for n_batches in range(int(len(w) / self.batch_size)):
+                yield w[n_batches * self.batch_size: (n_batches + 1) * self.batch_size], \
+                      p[n_batches * self.batch_size: (n_batches + 1) * self.batch_size], \
+                      l[n_batches * self.batch_size: (n_batches + 1) * self.batch_size]
+
+
+    def __len__(self):
+        return len(self.batch_size)
+
+
+# if __name__ == '__main__':
     # initialize data generator
-    data_generator = RcDataReader(
-        wordemb_dict_path='../../data/dict/word_idx',
-        postag_dict_path='../../data/dict/postag_dict',
-        label_dict_path='../../data/dict/p_eng',
-        train_data_list_path='../../data/train_data.json',
-        test_data_list_path='../../data//dev_data.json')
+    # data_generator = RcDataReader(
+    #     wordemb_dict_path='../../data/dict/word_idx',
+    #     postag_dict_path='../../data/dict/postag_dict',
+    #     label_dict_path='../../data/dict/p_eng',
+    #     train_data_list_path='../../data/train_data.json',
+    #     test_data_list_path='../../data//dev_data.json')
 
-    # prepare data reader
-    ttt = data_generator.get_test_reader()
-    for index, features in enumerate(ttt()):
-        input_sent, word_idx_list, postag_list, label_list = features
-        print(input_sent)
-        print('1st features:', len(word_idx_list), word_idx_list)
-        print('2nd features:', len(postag_list), postag_list)
-        print('3rd features:', len(label_list), '\t', label_list)
+    # # prepare data reader
+    # ttt = data_generator.get_test_reader()
+    # for index, features in enumerate(ttt()):
+    #     input_sent, word_idx_list, postag_list, label_list = features
+    #     # print(input_sent)
+    #     # print('1st features:', len(word_idx_list), word_idx_list)
+    #     # print('2nd features:', len(postag_list), postag_list)
+    #     # print('3rd features:', len(label_list), '\t', label_list)
+
+
