@@ -265,6 +265,49 @@ class DataReader(object):
         max_idx = tensor_list.argmax()
         return self._reverse_dict[dict_name].get(max_idx, 0)
 
+class DataGen(object):
+    def  __init__(self, is_train, batch_size):
+        self.batch_size = batch_size
+        self._train = is_train
+        self.reader = DataReader(
+                            wordemb_dict_path='../../data/dict/word_idx',
+                            postag_dict_path='../../data/dict/postag_dict',
+                            label_dict_path='../../data/dict/label_dict',
+                            p_eng_dict_path='../../data/dict/p_eng',
+                            train_data_list_path='../../data/train_data.p',
+                            test_data_list_path='../../data/dev_data.p'
+                        )
+
+        self.train_data = self.reader.get_train_reader()
+        self.test_data = self.reader.get_test_reader()
+        self.predict_data = self.reader.get_test_reader()
+
+    def __iter__(self):
+        if self._train is True:
+            w = []
+            p = []
+            p_id = []
+            l = []
+            for data in self.train_data():
+                word_idx_list, postag_list, p_idx, label_list = data
+                if(len(word_idx_list) < 200):
+                    word_idx_list.extend([0 for _ in range(200 - len(word_idx_list))])
+                    postag_list.extend([0 for _ in range(200 - len(postag_list))])
+                    p_idx.extend([0 for _ in range(200 - len(p_idx))])
+                    label_list.extend([0 for _ in range(200 - len(label_list))])
+                w.append(word_idx_list)
+                p.append(postag_list)
+                p_id.append(p_idx)
+                l.append(label_list)
+            for n_batches in range(int(len(w) / self.batch_size)):
+                yield w[n_batches * self.batch_size: (n_batches + 1) * self.batch_size], \
+                      p[n_batches * self.batch_size: (n_batches + 1) * self.batch_size], \
+                      p_id[n_batches * self.batch_size: (n_batches + 1) * self.batch_size], \
+                      l[n_batches * self.batch_size: (n_batches + 1) * self.batch_size]
+
+    def __len__(self):
+        return len(self.batch_size)
+
 
 if __name__ == '__main__':
     # initialize data generator

@@ -22,13 +22,13 @@ import torch
 import torch.optim as optim
 import torch.nn.functional as F
 
-import so_labeling.spo_data_reader as reader
+from spo_data_reader import *
 import so_labeling.tools as tools
 import so_labeling.models as models
 from constant import *
 import persistence
 
-data_generator = reader.DataReader(
+data_generator = DataReader(
         wordemb_dict_path='../../data/dict/word_idx',
         postag_dict_path='../../data/dict/postag_dict',
         label_dict_path='../../data/dict/label_dict',
@@ -44,9 +44,9 @@ def main(args):
 
 
 def init(args):
-    wordemb_dicts = reader.data_generator.get_dict('wordemb_dict')
-    label_dicts = reader.data_generator.get_dict('label_dict')
-    print(label_dicts)
+    wordemb_dicts = data_generator.get_dict('wordemb_dict')
+    label_dicts = data_generator.get_dict('so_label_dict')
+    #print(label_dicts)
     dicts = wordemb_dicts, label_dicts
     model = tools.pick_model(args, dicts)
 
@@ -66,50 +66,57 @@ def train_epoches(args, model, optimizer, params, dicts):
     metrics_hist_te = defaultdict(lambda: [])
     metrics_hist_tr = defaultdict(lambda: [])
 
-    test_only = args.test_model is not None
+    is_train = args.test_model is None
     evaluate = args.test_model is not None
     # train for n_epochs unless criterion metric does not improve for [patience] epochs
     for epoch in range(args.n_epochs):
         # only test on train/test set on very last epoch
-        if epoch == 0 and not args.test_model:
-            model_dir = os.path.join(SO_MODEL_DIR, '_'.join([args.model, time.strftime('%b_%d_%H:%M', time.localtime())]))
-            os.mkdir(model_dir)
-        elif args.test_model:
-            model_dir = os.path.dirname(os.path.abspath(args.test_model))
-        metrics_all = one_epoch(model, optimizer, args.Y, epoch, args.n_epochs, args.batch_size, args.data_path,
-                                test_only, dicts, model_dir,
-                                args.samples, args.gpu, args.quiet)
-        for name in metrics_all[0].keys():
-            metrics_hist[name].append(metrics_all[0][name])
-        for name in metrics_all[1].keys():
-            metrics_hist_te[name].append(metrics_all[1][name])
-        for name in metrics_all[2].keys():
-            metrics_hist_tr[name].append(metrics_all[2][name])
-        metrics_hist_all = (metrics_hist, metrics_hist_te, metrics_hist_tr)
-
-        # save metrics, model, params
-        persistence.save_everything(args, metrics_hist_all, model, model_dir, params, args.criterion, evaluate)
-
-        if test_only:
-            # we're done
-            break
-
-        if args.criterion in metrics_hist.keys():
-            if early_stop(metrics_hist, args.criterion, args.patience):
-                # stop training, do tests on test and train sets, and then stop the script
-                print("%s hasn't improved in %d epochs, early stopping..." % (args.criterion, args.patience))
-                test_only = True
-                args.test_model = '%s/model_best_%s.pth' % (model_dir, args.criterion)
-                model = tools.pick_model(args, dicts)
+        # if epoch == 0 and not args.test_model:
+        #     model_dir = os.path.join(SO_MODEL_DIR, '_'.join([args.model, time.strftime('%b_%d_%H:%M', time.localtime())]))
+        #     os.mkdir(model_dir)
+        # elif args.test_model:
+        #     model_dir = os.path.dirname(os.path.abspath(args.test_model))
+        model_dir = ''
+        # metrics_all = one_epoch(model, optimizer, args.Y, epoch, args.n_epochs, args.batch_size, args.data_path,
+        #                         test_only, dicts, model_dir,
+        #                         args.samples, args.gpu, args.quiet)
+        metrics = one_epoch(model,
+                            optimizer,
+                            args.Y, epoch,
+                            args.n_epochs,
+                            args.batch_size,
+                            is_train, dicts,
+                            args.gpu, model_dir=model_dir)
+        # for name in metrics_all[0].keys():
+        #     metrics_hist[name].append(metrics_all[0][name])
+        # for name in metrics_all[1].keys():
+        #     metrics_hist_te[name].append(metrics_all[1][name])
+        # for name in metrics_all[2].keys():
+        #     metrics_hist_tr[name].append(metrics_all[2][name])
+        # metrics_hist_all = (metrics_hist, metrics_hist_te, metrics_hist_tr)
+        #
+        # # save metrics, model, params
+        # persistence.save_everything(args, metrics_hist_all, model, model_dir, params, args.criterion, evaluate)
+        #
+        # if test_only:
+        #     # we're done
+        #     break
+        #
+        # if args.criterion in metrics_hist.keys():
+        #     if early_stop(metrics_hist, args.criterion, args.patience):
+        #         # stop training, do tests on test and train sets, and then stop the script
+        #         print("%s hasn't improved in %d epochs, early stopping..." % (args.criterion, args.patience))
+        #         test_only = True
+        #         args.test_model = '%s/model_best_%s.pth' % (model_dir, args.criterion)
+        #         model = tools.pick_model(args, dicts)
     return epoch + 1
 
-def one_epoch(model, optimizer, Y, epoch, n_epochs, batch_size, data_path, version, testing, dicts, model_dir,
-              samples, gpu, quiet):
+def one_epoch(model, optimizer, Y, epoch, n_epochs, batch_size, is_train, dicts, gpu, model_dir):
     """
         Wrapper to do a training epoch and test on dev
     """
-    if not testing:
-        losses, unseen_code_inds = train(model, optimizer, Y, epoch, batch_size, data_path, gpu, dicts, quiet)
+    if is_train:
+        losses, unseen_code_inds = train(model, optimizer, Y, epoch, batch_size, gpu, dicts)
         loss = np.mean(losses)
         print("epoch loss: " + str(loss))
     else:
@@ -139,11 +146,11 @@ def one_epoch(model, optimizer, Y, epoch, n_epochs, batch_size, data_path, versi
         quiet = False
 
     # test on dev
-    metrics = test(model, Y, epoch, data_path, fold, gpu, version, unseen_code_inds, dicts, samples, model_dir,
+    metrics = test(model, Y, epoch, fold, gpu, unseen_code_inds, dicts, model_dir,
                    testing)
     if testing or epoch == n_epochs - 1:
         print("\nevaluating on test")
-        metrics_te = test(model, Y, epoch, data_path, "test", gpu, version, unseen_code_inds, dicts, samples,
+        metrics_te = test(model, Y, epoch, "test", gpu, unseen_code_inds, dicts,
                           model_dir, True)
     else:
         metrics_te = defaultdict(float)
@@ -166,32 +173,23 @@ def early_stop(metrics_hist, criterion, patience):
         #keep training if criterion results have all been nan so far
         return False
 
-def train(model, optimizer, Y, epoch, batch_size, data_path, gpu, dicts):
+def train(model, optimizer, Y, epoch, batch_size, gpu, dicts):
     print("EPOCH %d" % epoch)
 
     #######################TODO######################
-    num_labels = len(dicts['label_dicts'])
+    #num_labels = len(dicts['label_dicts'])
 
     losses = []
     # how often to print some info to stdout
     print_every = 25
     model.train()
 
-    data_generator = reader.DataReader(
-        wordemb_dict_path='../../data/dict/word_idx',
-        postag_dict_path='../../data/dict/postag_dict',
-        label_dict_path='../../data/dict/label_dict',
-        p_eng_dict_path='../../data/dict/p_eng',
-        train_data_list_path='../../data/train_data.p',
-        test_data_list_path='../../data/dev_data.p'
-    )
-    gen = data_generator.get_train_reader()
-
-    for batch_idx, features in enumerate(gen()):
-        input_sent, word_idx_list, postag_list, label_list = features
-        data = word_idx_list, postag_list
+    gen = DataGen(is_train=True, batch_size=args.batch_size)
+    for batch_idx, features in enumerate(gen):
+        word_idx_list, postag_list, p_idx, label_list = features
         target = label_list
-        data, target = Variable(torch.LongTensor(data)), Variable(torch.FloatTensor(target))
+        data = Variable(torch.LongTensor(word_idx_list)), Variable(torch.LongTensor(postag_list)), Variable(torch.LongTensor(p_idx))
+        target = Variable(torch.FloatTensor(target))
         if gpu:
             data = data.cuda()
             target = target.cuda()
@@ -212,7 +210,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='train on relation extraction')
     parser.add_argument("--data_path", type=str, required=False, default="../data/seg_text_comma.txt",
                         help="path to a file containing sorted train data")
-    parser.add_argument("vocab", type=str, help="path to a file holding vocab word list for discretizing words")
+    #parser.add_argument("vocab", type=str, help="path to a file holding vocab word list for discretizing words")
     parser.add_argument("Y", type=str, help="size of label space")
     parser.add_argument("model", type=str, choices=["cnn_vanilla", "rnn", "conv_attn", "multi_conv_attn", "saved"], help="model")
     parser.add_argument("n_epochs", type=int, help="number of epochs to train")
