@@ -1,5 +1,5 @@
 EMBEDDING_SIZE = 100
-MAX_LENGTH = 100
+MAX_LENGTH = 200
 
 #where you want to save any models you may train
 #与data同目录，创建/saved_model路径

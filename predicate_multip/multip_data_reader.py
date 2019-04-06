@@ -222,6 +222,9 @@ class DataGen(object):
             l = []
             for data in self.train_data():
                 word_idx_list, postag_list, label_list = data
+                if(len(word_idx_list) < 200):
+                    word_idx_list.extend([0 for _ in range(200 - len(word_idx_list))])
+                    postag_list.extend([0 for _ in range(200 - len(postag_list))])
                 w.append(word_idx_list)
                 p.append(postag_list)
                 l.append(label_list)
@@ -235,22 +238,38 @@ class DataGen(object):
         return len(self.batch_size)
 
 
-# if __name__ == '__main__':
-    # initialize data generator
-    # data_generator = RcDataReader(
-    #     wordemb_dict_path='../../data/dict/word_idx',
-    #     postag_dict_path='../../data/dict/postag_dict',
-    #     label_dict_path='../../data/dict/p_eng',
-    #     train_data_list_path='../../data/train_data.json',
-    #     test_data_list_path='../../data//dev_data.json')
+if __name__ == '__main__':
+    #initialize data generator
+    data_generator = RcDataReader(
+        wordemb_dict_path='../../data/dict/word_idx',
+        postag_dict_path='../../data/dict/postag_dict',
+        label_dict_path='../../data/dict/p_eng',
+        train_data_list_path='../../data/train_data.json',
+        test_data_list_path='../../data//dev_data.json')
 
-    # # prepare data reader
-    # ttt = data_generator.get_test_reader()
+    # prepare data reader
+    # total_len = 0
+    # max_len = 0
+    #
+    # ttt = data_generator.get_train_reader()
     # for index, features in enumerate(ttt()):
-    #     input_sent, word_idx_list, postag_list, label_list = features
+    #     word_idx_list, postag_list, label_list = features
+    #     if(len(word_idx_list)>max_len):
+    #         max_len = len(word_idx_list)
+    #     total_len += len(word_idx_list)
+    #     if(index%1000==0):
+    #         print(index)
     #     # print(input_sent)
     #     # print('1st features:', len(word_idx_list), word_idx_list)
     #     # print('2nd features:', len(postag_list), postag_list)
     #     # print('3rd features:', len(label_list), '\t', label_list)
+    # avg_len = total_len/index
+    # print(avg_len)
+    # print(max_len)
+    #
+    gen = DataGen(is_train=True, batch_size=32)
+    for i in gen:
+        continue
+
 
 

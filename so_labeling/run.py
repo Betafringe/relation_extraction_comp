@@ -28,6 +28,15 @@ import so_labeling.models as models
 from constant import *
 import persistence
 
+data_generator = reader.DataReader(
+        wordemb_dict_path='../../data/dict/word_idx',
+        postag_dict_path='../../data/dict/postag_dict',
+        label_dict_path='../../data/dict/label_dict',
+        p_eng_dict_path='../../data/dict/p_eng',
+        train_data_list_path='../../data/train_data.p',
+        test_data_list_path='../../data/dev_data.p'
+    )
+
 def main(args):
     args, model, optimizer, params, dicts = init(args)
     #model = model.cuda()
@@ -35,13 +44,11 @@ def main(args):
 
 
 def init(args):
-    # wordemb_dicts = reader.data_generator.get_dict('wordemb_dict')
-    # label_dicts = reader.data_generator.get_dict('label_dict')
-    # print(label_dicts)
-    # dicts = wordemb_dicts, label_dicts
-    dicts = []
+    wordemb_dicts = reader.data_generator.get_dict('wordemb_dict')
+    label_dicts = reader.data_generator.get_dict('label_dict')
+    print(label_dicts)
+    dicts = wordemb_dicts, label_dicts
     model = tools.pick_model(args, dicts)
-    print(model)
 
     if not args.test_model:
         optimizer = optim.Adam(model.parameters(), weight_decay=args.weight_decay, lr=args.lr)
@@ -179,6 +186,7 @@ def train(model, optimizer, Y, epoch, batch_size, data_path, gpu, dicts):
         test_data_list_path='../../data/dev_data.p'
     )
     gen = data_generator.get_train_reader()
+
     for batch_idx, features in enumerate(gen()):
         input_sent, word_idx_list, postag_list, label_list = features
         data = word_idx_list, postag_list

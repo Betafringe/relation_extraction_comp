@@ -64,9 +64,9 @@ class VanillaRNN(BaseModel):
 
         # recurrent unit
         if self.cell_type == 'lstm':
-            self.rnn = nn.LSTM(self.embed_size, floor(self.rnn_dim/self.num_directions), self.num_layers, bidirectional=bidirectional)
+            self.rnn = nn.LSTM(self.embed_size*2, floor(self.rnn_dim/self.num_directions), self.num_layers, bidirectional=bidirectional)
         else:
-            self.rnn = nn.GRU(self.embed_size, floor(self.rnn_dim/self.num_directions), self.num_layers, bidirectional=bidirectional)
+            self.rnn = nn.GRU(self.embed_size*2, floor(self.rnn_dim/self.num_directions), self.num_layers, bidirectional=bidirectional)
         # linear output
         self.final = nn.Linear(self.rnn_dim, Y)
 
@@ -76,15 +76,19 @@ class VanillaRNN(BaseModel):
 
     def forward(self, x, target, desc_data=None, get_attention=False):
         # clear hidden state, reset batch size at the start of each batch
-        self.refresh(x.size()[0])
+        self.refresh(x[0].size()[0])
+        self.refresh(x[1].size()[0])
         # embed
         x_word = x[0]
         x_pos = x[1]
 
-        embeds_word = self.embed_word(x_word).transpose(0, 1)
-        embeds_pos = self.embed_pos(x_pos).transpose(0, 1)
+        embeds_word = self.embed_word(x_word).transpose(0, 2)
+        embeds_pos = self.embed_pos(x_pos).transpose(0, 2)
+        print("***********************")
+        print(embeds_word.size())
+        embeds = torch.cat((embeds_word, embeds_pos), 0).transpose(0, 2).transpose(0.1)
 
-        embeds = torch.cat((embeds_word, embeds_pos), 0)
+        print(embeds.size())
 
         out, self.hidden = self.rnn(embeds, self.hidden)
 
@@ -94,8 +98,11 @@ class VanillaRNN(BaseModel):
                                                                                                   1).contiguous().view(
             self.batch_size, -1)
         # apply linear layer and sigmoid to get predictions
+        print('1')
         yhat = F.sigmoid(self.final(last_hidden))
+        print('2')
         loss = self._get_loss(yhat, target)
+        print('3')
         return yhat, loss, None
 
     def init_hidden(self):

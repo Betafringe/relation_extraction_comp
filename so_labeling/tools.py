@@ -16,7 +16,7 @@ import pickle
 import torch
 from torch.autograd import Variable
 
-from .models import *
+import so_labeling.models as models
 import numpy as np
 
 

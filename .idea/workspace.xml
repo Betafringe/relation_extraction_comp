@@ -2,13 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d773f037-df60-4c87-9fac-e06faab5d5f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/constant.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/persistence.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/so_labeling/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/so_labeling/run.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/so_labeling/tools.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/so_labeling/train_shell/CNN_train.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/len.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/relation_extraction_comp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/relation_extraction_comp.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constant.py" beforeDir="false" afterPath="$PROJECT_DIR$/constant.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/predicate_multip/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/predicate_multip/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/predicate_multip/multip_data_reader.py" beforeDir="false" afterPath="$PROJECT_DIR$/predicate_multip/multip_data_reader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/predicate_multip/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/predicate_multip/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/predicate_multip/train_script.sh" beforeDir="false" afterPath="$PROJECT_DIR$/predicate_multip/train_script.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/so_labeling/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/so_labeling/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/so_labeling/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/so_labeling/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/so_labeling/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/so_labeling/tools.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +21,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/relation_extraction_comp$multip_data_reader.coverage" NAME="multip_data_reader Coverage Results" MODIFIED="1554296817258" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/predicate_multip" />
+    <SUITE FILE_PATH="coverage/relation_extraction_comp$multip_data_reader.coverage" NAME="multip_data_reader Coverage Results" MODIFIED="1554538553510" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/predicate_multip" />
     <SUITE FILE_PATH="coverage/relation_extraction_comp$pytest_in_run_py.coverage" NAME="pytest in run.py Coverage Results" MODIFIED="1554344867662" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/relation_extraction_comp$spo_data_reader.coverage" NAME="spo_data_reader Coverage Results" MODIFIED="1554343664619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/so_labeling" />
   </component>
@@ -54,34 +58,37 @@
     <session id="-1357814665">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.35" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.38" value="1" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="11" />
-          <entry key="sh" value="1" />
+          <entry key="py" value="16" />
+          <entry key="sh" value="2" />
+          <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="11" />
+          <entry key="PLAIN_TEXT" value="3" />
+          <entry key="Python" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="493" />
+          <entry key="py" value="1080" />
           <entry key="sh" value="3" />
+          <entry key="txt" value="13" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="3" />
-          <entry key="Python" value="493" />
+          <entry key="PLAIN_TEXT" value="16" />
+          <entry key="Python" value="1080" />
         </counts>
       </usages-collector>
     </session>
@@ -89,87 +96,40 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/so_labeling/spo_data_reader.py">
+        <entry file="file://$PROJECT_DIR$/predicate_multip/run.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="282" column="65" lean-forward="true" selection-start-line="282" selection-start-column="8" selection-end-line="282" selection-end-column="65" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/so_labeling/spo_train.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/so_labeling/run.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="249" column="22" selection-start-line="249" selection-start-column="22" selection-end-line="249" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistence.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1378">
-              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+            <state relative-caret-position="52">
+              <caret line="136" column="72" lean-forward="true" selection-start-line="136" selection-start-column="72" selection-end-line="136" selection-end-column="72" />
               <folding>
-                <element signature="e#36#46#0" expanded="true" />
+                <marker date="1554539456451" expanded="true" signature="746:751" ph="..." />
               </folding>
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/constant.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/so_labeling/train_shell/CNN_train.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="29" selection-start-column="29" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/so_labeling/tools.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-414">
-              <caret line="22" column="26" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="26" />
-              <folding>
-                <element signature="e#160#170#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/so_labeling/models.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/predicate_multip/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-212" />
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/predicate_multip/multip_data_reader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="220" column="25" lean-forward="true" selection-start-line="220" selection-start-column="25" selection-end-line="220" selection-end-column="25" />
+            <state relative-caret-position="170">
+              <caret line="226" column="82" selection-start-line="226" selection-start-column="82" selection-end-line="226" selection-end-column="82" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/constant.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="29">
+              <caret line="1" column="16" lean-forward="true" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/predicate_multip/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="125">
+              <caret line="88" column="86" selection-start-line="88" selection-start-column="86" selection-end-line="88" selection-end-column="86" />
             </state>
           </provider>
         </entry>
@@ -187,6 +147,8 @@
     <findStrings>
       <find>argv</find>
       <find>data_generator</find>
+      <find>dicts</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -197,13 +159,17 @@
       <list>
         <option value="$PROJECT_DIR$/lib/get_vocab.py" />
         <option value="$PROJECT_DIR$/so_labeling/model.py" />
-        <option value="$PROJECT_DIR$/so_labeling/models.py" />
-        <option value="$PROJECT_DIR$/so_labeling/tools.py" />
-        <option value="$PROJECT_DIR$/predicate_multip/run.py" />
         <option value="$PROJECT_DIR$/so_labeling/train_shell/CNN_train.sh" />
         <option value="$PROJECT_DIR$/persistence.py" />
+        <option value="$PROJECT_DIR$/so_labeling/models.py" />
         <option value="$PROJECT_DIR$/so_labeling/run.py" />
+        <option value="$PROJECT_DIR$/so_labeling/tools.py" />
+        <option value="$PROJECT_DIR$/predicate_multip/train_script.sh" />
+        <option value="$PROJECT_DIR$/len.txt" />
         <option value="$PROJECT_DIR$/constant.py" />
+        <option value="$PROJECT_DIR$/predicate_multip/multip_data_reader.py" />
+        <option value="$PROJECT_DIR$/predicate_multip/run.py" />
+        <option value="$PROJECT_DIR$/predicate_multip/models.py" />
       </list>
     </option>
   </component>
@@ -214,10 +180,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="528" />
-    <option name="y" value="165" />
-    <option name="width" value="1220" />
-    <option name="height" value="633" />
+    <option name="x" value="245" />
+    <option name="y" value="115" />
+    <option name="width" value="1535" />
+    <option name="height" value="825" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -267,7 +233,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.pytest in run.py">
+  <component name="RunManager" selected="Python.multip_data_reader">
     <configuration name="multip_data_reader" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="relation_extraction_comp" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -335,9 +301,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.multip_data_reader" />
         <item itemvalue="Python tests.pytest in run.py" />
         <item itemvalue="Python.spo_data_reader" />
-        <item itemvalue="Python.multip_data_reader" />
       </list>
     </recent_temporary>
   </component>
@@ -366,12 +332,12 @@
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23190348" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2761394" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.08356941" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.35410765" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -380,7 +346,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.3286119" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.31586403" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -398,9 +364,7 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lib/get_vocab.py" />
-    <entry file="file://$PROJECT_DIR$/so_labeling/model.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/so_labeling/model.py" />
     <entry file="file://$PROJECT_DIR$/predicate_multip/tools.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="87">
@@ -411,10 +375,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/predicate_multip/run.py">
+    <entry file="file://$PROJECT_DIR$/so_labeling/spo_data_reader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8062">
+          <caret line="282" column="65" selection-start-line="282" selection-start-column="8" selection-end-line="282" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/so_labeling/spo_train.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistence.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="116">
-          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#36#46#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -425,62 +402,75 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/predicate_multip/models.py">
+    <entry file="file://$PROJECT_DIR$/so_labeling/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-212" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/so_labeling/tools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-414">
-          <caret line="22" column="26" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="26" />
+        <state relative-caret-position="377">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
           <folding>
-            <element signature="e#160#170#0" expanded="true" />
+            <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/so_labeling/models.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/persistence.py">
+    <entry file="file://$PROJECT_DIR$/so_labeling/tools.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1378">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        <state relative-caret-position="-464">
+          <caret line="26" column="9" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
           <folding>
-            <element signature="e#36#46#0" expanded="true" />
+            <element signature="e#159#169#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predicate_multip/train_script.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="29">
+          <caret line="1" column="25" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/so_labeling/run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="187" column="31" lean-forward="true" selection-start-line="187" selection-start-column="31" selection-end-line="187" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/len.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="29">
+          <caret line="1" column="17" lean-forward="true" selection-start-line="1" selection-start-column="17" selection-end-line="1" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/constant.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="29">
+          <caret line="1" column="16" lean-forward="true" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predicate_multip/run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="136" column="72" lean-forward="true" selection-start-line="136" selection-start-column="72" selection-end-line="136" selection-end-column="72" />
+          <folding>
+            <marker date="1554539456451" expanded="true" signature="746:751" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/predicate_multip/multip_data_reader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="220" column="25" lean-forward="true" selection-start-line="220" selection-start-column="25" selection-end-line="220" selection-end-column="25" />
+        <state relative-caret-position="170">
+          <caret line="226" column="82" selection-start-line="226" selection-start-column="82" selection-end-line="226" selection-end-column="82" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/so_labeling/spo_train.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/so_labeling/spo_data_reader.py">
+    <entry file="file://$PROJECT_DIR$/predicate_multip/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="282" column="65" lean-forward="true" selection-start-line="282" selection-start-column="8" selection-end-line="282" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/so_labeling/run.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="249" column="22" selection-start-line="249" selection-start-column="22" selection-end-line="249" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/constant.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+        <state relative-caret-position="125">
+          <caret line="88" column="86" selection-start-line="88" selection-start-column="86" selection-end-line="88" selection-end-column="86" />
         </state>
       </provider>
     </entry>

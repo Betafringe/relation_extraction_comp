@@ -58,8 +58,9 @@ def train_epoches(args, model, optimizer, params, dicts):
     is_train = True
     for epoch in range(args.n_epochs):
         if epoch == 0:
-            model_dir = os.path.join(MODEL_DIR, '_'.join([args.model, time.strftime('%b_%d_%H:%M:%S', time.localtime())]))
-            os.mkdir(model_dir)
+            model_dir = ''
+            # model_dir = os.path.join(MODEL_DIR, '_'.join([args.model, time.strftime('%b_%d_%H:%M:%S', time.localtime())]))
+            # os.mkdir(model_dir)
         metrics = one_epoch(model,
                             optimizer,
                             args.Y, epoch,
@@ -94,12 +95,13 @@ def train(model, optimizer, Y, epoch, n_epochs, batch_size, is_train, dicts, gpu
     gen = DataGen(is_train=True, batch_size=args.batch_size)
     for batch_idx, features in enumerate(gen):
         word_idx_list, postag_list, label_list = features
-        data = word_idx_list, postag_list
         target = label_list
-        data = Variable(torch.LongTensor(data)), Variable(torch.LongTensor(target))
+        print(len(word_idx_list),len(word_idx_list[1]))
+        print(len(postag_list), len(postag_list[1]))
+        data = Variable(torch.LongTensor(word_idx_list)), Variable(torch.LongTensor(postag_list))
         target = Variable(torch.FloatTensor(target))
 
-        print(data.size())
+        print(data[0].size())
         if gpu:
             data = data.cuda()
             target = target.cuda()
@@ -134,6 +136,8 @@ if __name__ == "__main__":
                         help="number of layers for RNN models (default: 1)")
     parser.add_argument("--embed-size", type=int, required=False, dest="embed_size", default=100,
                         help="size of embedding dimension. (default: 100)")
+    # parser.add_argument("--pos-embed-size", type=int, required=False, dest="pos_embed_size", default=100,
+    #                     help="size of embedding dimension. (default: 100)")
     parser.add_argument("--filter-size", type=str, required=False, dest="filter_size", default=4,
                         help="size of convolution filter to use. (default: 3) For multi_conv_attn, "
                              "give comma separated integers, e.g. 3,4,5")
