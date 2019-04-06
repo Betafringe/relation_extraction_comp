@@ -10,27 +10,39 @@ sys.path.append('../')
 sys.path.append('../../')
 
 import argparse
-import sys
-from datetime import time
+import time
 
 import torch
 import torch.optim as optim
 import torch.nn.functional as F
+from torch.autograd import Variable
+
 
 from multip_data_reader import *
-from tools import *
+import tools as tools
+MODEL_DIR = 'MODEL_CHECKPOINT'
+data_generator = RcDataReader(
+    wordemb_dict_path='../../data/dict/word_idx',
+    postag_dict_path='../../data/dict/postag_dict',
+    label_dict_path='../../data/dict/p_eng',
+    train_data_list_path='../../data/train_data.json',
+    test_data_list_path='../../data//dev_data.json')
 
 
 def main(args):
+    start = time.time()
     args, model, optimizer, params, dicts = init(args)
-    model = model.cuda()
+    # model = model.cuda()
     epochs_trained = train_epoches(args, model, optimizer, params, dicts)
+    print("TOTAL ELAPSED TIME FOR %s MODEL AND %d EPOCHS: %f" % (args.model, epochs_trained, time.time() - start))
+    print("TOTAL ELAPSED TIME FOR %s MODEL: %f" % (args.model, time.time() - start))
 
 
 def init(args):
     wordemb_dicts = data_generator.get_dict('wordemb_dict')
     label_dicts = data_generator.get_dict('label_dict')
     dicts = wordemb_dicts, label_dicts
+    print(len(dicts))
     model = tools.pick_model(args, dicts)
     print(model)
 
@@ -43,27 +55,51 @@ def init(args):
 
 
 def train_epoches(args, model, optimizer, params, dicts):
+    is_train = True
+    for epoch in range(args.n_epochs):
+        if epoch == 0:
+            model_dir = os.path.join(MODEL_DIR, '_'.join([args.model, time.strftime('%b_%d_%H:%M:%S', time.localtime())]))
+            os.mkdir(model_dir)
+        metrics = one_epoch(model,
+                            optimizer,
+                            args.Y, epoch,
+                            args.n_epochs,
+                            args.batch_size,
+                            is_train, dicts,
+                            args.gpu, model_dir=model_dir)
+
+    return epoch+1
+
+
+def one_epoch(model, optimizer, Y, epoch, n_epochs, batch_size, is_train, dicts, gpu, model_dir):
+    if is_train:
+        losses = train(model, optimizer, Y, epoch, n_epochs, batch_size, is_train, dicts, gpu)
+        loss = np.mean(losses)
+        print("epoch loss:" + str(loss))
+
+    return loss
+
+
+def test(model, optimizer, Y, epoch, n_epochs, batch_size, is_train, dicts, gpu):
     pass
 
-def one_epoch(args, model, optimizer, params, dicts):
-    pass
 
-def test(args, model, optimizer, params, dicts):
-    pass
-
-def train(model, optimizer, Y, epoch, batch_size, data_path, gpu, dicts):
+def train(model, optimizer, Y, epoch, n_epochs, batch_size, is_train, dicts, gpu):
     print("EPOCH %d" % epoch)
-    num_labels = len(dicts['label_dicts'])
+    # num_labels = len(dicts[1])
     losses = []
     # how often to print some info to stdout
     print_every = 25
     model.train()
-    gen = data_generator.get_train_reader()
-    for batch_idx, features in enumerate(gen()):
-        input_sent, word_idx_list, postag_list, label_list = features
+    gen = DataGen(is_train=True, batch_size=args.batch_size)
+    for batch_idx, features in enumerate(gen):
+        word_idx_list, postag_list, label_list = features
         data = word_idx_list, postag_list
         target = label_list
-        data, target = Variable(torch.LongTensor(data)), Variable(torch.FloatTensor(target))
+        data = Variable(torch.LongTensor(data)), Variable(torch.LongTensor(target))
+        target = Variable(torch.FloatTensor(target))
+
+        print(data.size())
         if gpu:
             data = data.cuda()
             target = target.cuda()
@@ -74,21 +110,17 @@ def train(model, optimizer, Y, epoch, batch_size, data_path, gpu, dicts):
         optimizer.step()
 
         losses.append(loss.data[0])
-            # print the average loss of the last 10 batches
-        print("Train epoch: {} [batch #{}, batch_size {}, seq length {}]\tLoss: {:.6f}".format(
-            epoch, batch_idx, data.size()[0], data.size()[1], np.mean(losses[-10:])))
+        # print the average loss of the last 10 batches
+        if batch_idx % print_every == 0:
+            print("Train epoch: {} [batch #{}, batch_size {}, seq length {}]\tLoss: {:.6f}".format(
+                epoch, batch_idx, data.size()[0], data.size()[1], np.mean(losses[-10:])))
     return losses
-
-
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='train on relation extraction')
-    parser.add_argument("--data_path", type=str, required=False, default="../data/seg_text_comma.txt",
-                        help="path to a file containing sorted train data")
-    parser.add_argument("vocab", type=str, help="path to a file holding vocab word list for discretizing words")
     parser.add_argument("Y", type=str, help="size of label space")
-    parser.add_argument("predicate_multip", type=str, choices=["cnn_vanilla", "rnn", "conv_attn", "multi_conv_attn", "saved"], help="predicate_multip")
+    parser.add_argument("model", type=str, choices=["cnn_vanilla", "rnn", "conv_attn", "multi_conv_attn", "saved"], help="predicate_multip")
     parser.add_argument("n_epochs", type=int, help="number of epochs to train")
     parser.add_argument("--embed-file", type=str, required=False, dest="embed_file",
                         help="path to a file holding pre-trained embeddings")
@@ -112,10 +144,12 @@ if __name__ == "__main__":
                         help="coefficient for penalizing l2 norm of predicate_multip weights (default: 0)")
     parser.add_argument("--lr", type=float, required=False, dest="lr", default=1e-3,
                         help="learning rate for Adam optimizer (default=1e-3)")
-    parser.add_argument("--batch-size", type=int, required=False, dest="batch_size", default=16,
+    parser.add_argument("--batch-size", type=int, required=False, dest="batch_size", default=32,
                         help="size of training batches")
     parser.add_argument("--dropout", dest="dropout", type=float, required=False, default=0.5,
                         help="optional specification of dropout (default: 0.5)")
+    parser.add_argument("--lmbda", type=float, required=False, dest="lmbda", default=0,
+                        help="hyperparameter to tradeoff BCE loss and similarity embedding loss. defaults to 0")
     parser.add_argument("--test-predicate_multip", type=str, dest="test_model", required=False, help="path to a saved predicate_multip to load and evaluate")
     parser.add_argument("--criterion", type=str, default='f1_micro', required=False, dest="criterion",
                         help="which metric to use for early stopping (default: f1_micro)")
