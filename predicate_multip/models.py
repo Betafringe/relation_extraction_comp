@@ -171,6 +171,7 @@ class Conv_RNN(BaseModel):
 
         # conv/max-pooling
         c = self.conv(embeds_word_drop.transpose(1, 2))
+        print(c.size())
         self.refresh(c.size()[0])
 
         cat = torch.cat((c, embeds_pos), 0)
