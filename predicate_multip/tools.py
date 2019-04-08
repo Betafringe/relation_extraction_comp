@@ -26,7 +26,7 @@ def pick_model(args, dicts):
     """
     Y = 49
     if args.model == "rnn":
-        model = models.VanillaRNN(Y, args.embed_file, dicts, args.rnn_dim, args.cell_type, args.rnn_layers, args.gpu, args.embed_size,
+        model = models.VanillaRNN(Y, args.embed_file, dicts, args.rnn_dim, args.cell_type, args.rnn_layers, args.gpu, args.word_embed_size,
                                   args.bidirectional)
     elif args.model == "cnn_vanilla":
         filter_size = int(args.filter_size)
@@ -43,7 +43,7 @@ def pick_model(args, dicts):
     elif args.model == "conv_rnn":
         filter_size = int(args.filter_size)
         model = models.Conv_RNN(Y, args.embed_file, filter_size, args.num_filter_maps, args.rnn_dim, args.cell_type, args.rnn_layers,
-                            args.bidirectional, args.gpu, dicts, args.embed_size, args.dropout)
+                            args.bidirectional, args.gpu, dicts, args.word_embed_size, args.dropout)
 
     if args.test_model:
         sd = torch.load(args.test_model)
