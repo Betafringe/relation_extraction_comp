@@ -5,14 +5,11 @@ from torch.nn.init import xavier_uniform
 from torch.autograd import Variable
 
 import numpy as np
-
 from math import floor
 import random
 import sys
 import time
-
-from constants import *
-from dataproc import extract_wvs
+from constant import *
 
 class BaseModel(nn.Module):
 
@@ -26,16 +23,21 @@ class BaseModel(nn.Module):
         self.lmbda = lmbda
 
         #make embedding layer
-        if embed_file:
-            print("loading pretrained embeddings...")
-            W = torch.Tensor(extract_wvs.load_embeddings(embed_file))
+        # if embed_file:
+        #     print("loading pretrained embeddings...")
+        #     W = torch.Tensor(extract_wvs.load_embeddings(embed_file))
+        #
+        #     self.embed = nn.Embedding(W.size()[0], W.size()[1])
+        #     self.embed.weight.data = W.clone()
+        # else:
+        #add 2 to include UNK and PAD
 
-            self.embed = nn.Embedding(W.size()[0], W.size()[1])
-            self.embed.weight.data = W.clone()
-        else:
-            #add 2 to include UNK and PAD
-            vocab_size = len(dicts['ind2w'])
-            self.embed = nn.Embedding(vocab_size+2, embed_size)
+        vocab_size = len(dicts[0])
+        pos_size = 24
+        p_size = 50
+        self.embed_word = nn.Embedding(vocab_size + 2, embed_size, padding_idx=0)
+        self.embed_pos = nn.Embedding(pos_size, embed_size, padding_idx=0)
+        self.embed_pid = nn.Embedding(p_size, embed_size, padding_idx=0)
 
 
     def _get_loss(self, yhat, target, diffs=None):
@@ -90,7 +92,7 @@ class VanillaRNN(BaseModel):
         General RNN - can be LSTM or GRU, uni/bi-directional
     """
 
-    def __init__(self, Y, embed_file, dicts, rnn_dim, cell_type, num_layers, gpu, embed_size=100, bidirectional=False):
+    def __init__(self, Y, embed_file, dicts, rnn_dim, cell_type, num_layers, gpu, embed_size=200, bidirectional=False):
         super(VanillaRNN, self).__init__(Y, embed_file, dicts, embed_size=embed_size, gpu=gpu)
         self.gpu = gpu
         self.rnn_dim = rnn_dim
@@ -98,49 +100,65 @@ class VanillaRNN(BaseModel):
         self.num_layers = num_layers
         self.num_directions = 2 if bidirectional else 1
 
-        #recurrent unit
+        # recurrent unit
         if self.cell_type == 'lstm':
-            self.rnn = nn.LSTM(self.embed_size, floor(self.rnn_dim/self.num_directions), self.num_layers, bidirectional=bidirectional)
+            self.rnn = nn.LSTM(self.embed_size*2, floor(self.rnn_dim/self.num_directions), self.num_layers, bidirectional=bidirectional)
         else:
-            self.rnn = nn.GRU(self.embed_size, floor(self.rnn_dim/self.num_directions), self.num_layers, bidirectional=bidirectional)
-        #linear output
+            self.rnn = nn.GRU(self.embed_size*2, floor(self.rnn_dim/self.num_directions), self.num_layers, bidirectional=bidirectional)
+        # linear output
         self.final = nn.Linear(self.rnn_dim, Y)
 
-        #arbitrary initialization
+        # arbitrary initialization
         self.batch_size = 16
         self.hidden = self.init_hidden()
 
     def forward(self, x, target, desc_data=None, get_attention=False):
-        #clear hidden state, reset batch size at the start of each batch
-        self.refresh(x.size()[0])
+        # clear hidden state, reset batch size at the start of each batch
+        self.refresh(x[0].size()[0])
+        self.refresh(x[1].size()[0])
+        self.refresh(x[2].size()[0])
+        # embed
+        x_word = x[0]
+        x_pos = x[1]
+        x_pid = x[2]
 
-        #embed
-        embeds = self.embed(x).transpose(0,1)
-        #apply RNN
+        embeds_word = self.embed_word(x_word).transpose(0, 2)
+        embeds_pos = self.embed_pos(x_pos).transpose(0, 2)
+        #embeds_pid = self.embed_pid(x_pid).transpose(0, 2)
+        print("***********************")
+        print(embeds_word.size())
+        embeds = torch.cat((embeds_word, embeds_pos), 0).transpose(0, 2).transpose(0,1)
+
+        print(embeds.size())
+
         out, self.hidden = self.rnn(embeds, self.hidden)
 
-        #get final hidden state in the appropriate way
+        # get final hidden state in the appropriate way
         last_hidden = self.hidden[0] if self.cell_type == 'lstm' else self.hidden
-        last_hidden = last_hidden[-1] if self.num_directions == 1 else last_hidden[-2:].transpose(0,1).contiguous().view(self.batch_size, -1)
-        #apply linear layer and sigmoid to get predictions
+        last_hidden = last_hidden[-1] if self.num_directions == 1 else last_hidden[-2:].transpose(0,
+                                                                                                  1).contiguous().view(
+            self.batch_size, -1)
+        # apply linear layer and sigmoid to get predictions
         yhat = F.sigmoid(self.final(last_hidden))
         loss = self._get_loss(yhat, target)
         return yhat, loss, None
 
     def init_hidden(self):
         if self.gpu:
-            h_0 = Variable(torch.cuda.FloatTensor(self.num_directions*self.num_layers, self.batch_size,
-                                                  floor(self.rnn_dim/self.num_directions)).zero_())
+            h_0 = Variable(torch.cuda.FloatTensor(self.num_directions * self.num_layers, self.batch_size,
+                                                  floor(self.rnn_dim / self.num_directions)).zero_())
             if self.cell_type == 'lstm':
-                c_0 = Variable(torch.cuda.FloatTensor(self.num_directions*self.num_layers, self.batch_size,
-                                                      floor(self.rnn_dim/self.num_directions)).zero_())
+                c_0 = Variable(torch.cuda.FloatTensor(self.num_directions * self.num_layers, self.batch_size,
+                                                      floor(self.rnn_dim / self.num_directions)).zero_())
                 return (h_0, c_0)
             else:
                 return h_0
         else:
-            h_0 = Variable(torch.zeros(self.num_directions*self.num_layers, self.batch_size, floor(self.rnn_dim/self.num_directions)))
+            h_0 = Variable(torch.zeros(self.num_directions * self.num_layers, self.batch_size,
+                                       floor(self.rnn_dim / self.num_directions)))
             if self.cell_type == 'lstm':
-                c_0 = Variable(torch.zeros(self.num_directions*self.num_layers, self.batch_size, floor(self.rnn_dim/self.num_directions)))
+                c_0 = Variable(torch.zeros(self.num_directions * self.num_layers, self.batch_size,
+                                           floor(self.rnn_dim / self.num_directions)))
                 return (h_0, c_0)
             else:
                 return h_0
