@@ -47,6 +47,12 @@ def pick_model(args, dicts):
         filter_size = int(args.filter_size)
         model = models.Conv_RNN(Y, args.embed_file, filter_size, args.num_filter_maps, args.rnn_dim, args.cell_type, args.rnn_layers,
                             args.bidirectional, args.gpu, dicts, args.embed_size, args.dropout)
+    elif args.model == "bilstm_crf":
+        START_TAG = "<START>"
+        STOP_TAG = "<STOP>"
+        with open('../../data/dict/word_idx') as f:
+            size = len(f.readlines())
+        model = models.BiLSTM_CRF(size, {"B - SUB": 0, "I - SUB": 1, "E - SUB": 2, "B - OBJ": 3, "I - OBJ": 4, "E - OBJ": 5, "O": 6, START_TAG: 7, STOP_TAG: 8}, embedding_dim=200, pos_dim=20, hidden_dim=128)
 
     if args.test_model:
         sd = torch.load(args.test_model)

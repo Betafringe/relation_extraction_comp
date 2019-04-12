@@ -69,11 +69,13 @@ class DataReader(object):
     def _load_p_eng_dict(self, dict_name):
         """load label dict from file"""
         p_eng_dict = {}
+        p_idx_dict = {}
         with open(dict_name, 'r', encoding='utf-8') as fr:
             for idx, line in enumerate(fr):
                 p, p_eng = line.strip().split('\t')
                 p_eng_dict[p] = p_eng
-        return p_eng_dict
+                p_idx_dict[p] = idx
+        return p_idx_dict
 
     def _load_dict_from_file(self, dict_name, bias=0):
         """
@@ -182,7 +184,7 @@ class DataReader(object):
         sentence_pos_list = [item['pos'] for item in dic['postag']]
         sentence_emb_slot = [self._feature_dict['wordemb_dict'].get(w, self._UNK_IDX) for w in sentence_term_list]
         sentence_pos_slot = [self._feature_dict['postag_dict'].get(pos, self._UNK_IDX) for pos in sentence_pos_list]
-        p_emb_slot = [self._feature_dict['wordemb_dict'].get(p, self._UNK_IDX)] * len(sentence_term_list)
+        p_emb_slot = [self._p_map_eng_dict.get(p, self._UNK_IDX)]
         if 'spo_list' not in dic:
             label_slot = [self._feature_dict['so_label_dict']['O']] * len(sentence_term_list)
         else:
@@ -324,6 +326,7 @@ if __name__ == '__main__':
     ttt = data_generator.get_test_reader()
     for index, features in enumerate(ttt()):
         input_sent, word_idx_list, postag_list, p_idx, label_list = features
+        wordemb_dicts = data_generator.get_dict('wordemb_dict')
         print(input_sent.encode('utf-8'))
         print('1st features:', len(word_idx_list), word_idx_list)
         print('2nd features:', len(postag_list), postag_list)

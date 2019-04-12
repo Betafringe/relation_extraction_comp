@@ -39,7 +39,8 @@ data_generator = DataReader(
 
 def main(args):
     args, model, optimizer, params, dicts = init(args)
-    #model = model.cuda()
+    if(args.gpu):
+        model = model.cuda()
     epochs_trained = train_epoches(args, model, optimizer, params, dicts)
 
 
@@ -191,18 +192,27 @@ def train(model, optimizer, Y, epoch, batch_size, gpu, dicts):
         data = Variable(torch.LongTensor(word_idx_list)), Variable(torch.LongTensor(postag_list)), Variable(torch.LongTensor(p_idx))
         target = Variable(torch.FloatTensor(target))
         if gpu:
-            data = data.cuda()
+            data = data[0].cuda(), data[1].cuda(), data[2].cuda()
             target = target.cuda()
-        optimizer.zero_grad()
-        output, loss, _ = model(data, target)
 
-        loss.backward()
+        optimizer.zero_grad()
+        # output, loss, _ = model(data, target)
+
+        neg_log_likelihood = model.neg_log_likelihood(data,
+                                                      target)  # tensor([ 15.4958]) 最大的可能的值与 根据随机转移矩阵 计算的真实值 的差
+
+        # Step 4. Compute the loss, gradients, and update the parameters by
+        # calling optimizer.step()
+        neg_log_likelihood.backward()  # 卧槽，这就能更新啦？？？进行了反向传播，算了梯度值。debug中可以看到，transition的_grad 有了值 torch.Size([5, 5])
         optimizer.step()
 
-        losses.append(loss.data[0])
+        # loss.backward()
+        # optimizer.step()
+        #
+        # losses.append(loss.data[0])
             # print the average loss of the last 10 batches
-        print("Train epoch: {} [batch #{}, batch_size {}, seq length {}]\tLoss: {:.6f}".format(
-            epoch, batch_idx, data.size()[0], data.size()[1], np.mean(losses[-10:])))
+        # print("Train epoch: {} [batch #{}, batch_size {}, seq length {}]\tLoss: {:.6f}".format(
+        #     epoch, batch_idx, data.size()[0], data.size()[1], np.mean(losses[-10:])))
     return losses
 
 
