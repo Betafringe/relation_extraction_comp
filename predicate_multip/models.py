@@ -130,7 +130,7 @@ class Conv_RNN(BaseModel):
         super(Conv_RNN, self).__init__(Y, embed_file, dicts, dropout=dropout, word_embed_size=200, pos_embed_size=10, gpu=gpu)
         # initialize conv layer as in 2.1
 
-        self.conv = nn.Conv1d(word_embed_size, 100, kernel_size=kernel_size, padding=floor(kernel_size/2))
+        self.conv = nn.Conv1d(word_embed_size+pos_embed_size, 100, kernel_size=kernel_size, padding=floor(kernel_size/2))
         xavier_uniform(self.conv.weight)
 
         # linear output
@@ -163,14 +163,16 @@ class Conv_RNN(BaseModel):
         # embed
         x_word = x[0]
         x_pos = x[1]
-        # get embed
-        embeds_word = self.embed_word(x_word)
-        embeds_pos = self.embed_pos(x_pos)
 
-        embeds_word_drop = self.embed_drop(embeds_word)
+        embeds_word = self.embed_word(x_word).transpose(0, 2)
+        embeds_pos = self.embed_pos(x_pos).transpose(0, 2)
+
+        embeds = torch.cat((embeds_word, embeds_pos), 0).transpose(0, 2).transpose(0, 1)
+
+        embeds_drop = self.embed_drop(embeds)
 
         # conv/max-pooling
-        c = self.conv(embeds_word_drop.transpose(1, 2))
+        c = self.conv(embeds_drop.transpose(1, 2))
         print(c.size())
         self.refresh(c.size()[0])
 

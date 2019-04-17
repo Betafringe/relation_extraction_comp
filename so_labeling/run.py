@@ -194,9 +194,12 @@ def train(model, optimizer, Y, epoch, batch_size, gpu, dicts):
         if gpu:
             data = data[0].cuda(), data[1].cuda(), data[2].cuda()
             target = target.cuda()
-
-        optimizer.zero_grad()
+        # optimizer.zero_grad()
         # output, loss, _ = model(data, target)
+        #
+        # loss.backward()
+        # optimizer.step()
+        #
 
         neg_log_likelihood = model.neg_log_likelihood(data,
                                                       target)  # tensor([ 15.4958]) 最大的可能的值与 根据随机转移矩阵 计算的真实值 的差
@@ -206,14 +209,11 @@ def train(model, optimizer, Y, epoch, batch_size, gpu, dicts):
         neg_log_likelihood.backward()  # 卧槽，这就能更新啦？？？进行了反向传播，算了梯度值。debug中可以看到，transition的_grad 有了值 torch.Size([5, 5])
         optimizer.step()
 
-        # loss.backward()
-        # optimizer.step()
-        #
-        # losses.append(loss.data[0])
+        losses.append(neg_log_likelihood)
             # print the average loss of the last 10 batches
-        # print("Train epoch: {} [batch #{}, batch_size {}, seq length {}]\tLoss: {:.6f}".format(
-        #     epoch, batch_idx, data.size()[0], data.size()[1], np.mean(losses[-10:])))
-    return losses
+        print("Train epoch: {} [batch #{}, batch_size {}, seq length {}]\tLoss: {:.6f}".format(
+            epoch, batch_idx, data.size()[0], data.size()[1], np.mean(losses[-1])))
+    # return losses
 
 
 if __name__ == "__main__":
@@ -222,7 +222,7 @@ if __name__ == "__main__":
                         help="path to a file containing sorted train data")
     #parser.add_argument("vocab", type=str, help="path to a file holding vocab word list for discretizing words")
     parser.add_argument("Y", type=str, help="size of label space")
-    parser.add_argument("model", type=str, choices=["cnn_vanilla", "rnn", "conv_attn", "multi_conv_attn", "saved"], help="model")
+    parser.add_argument("model", type=str, choices=["cnn_vanilla", "rnn", "conv_attn", "multi_conv_attn", "bilstm_crf", "saved"], help="model")
     parser.add_argument("n_epochs", type=int, help="number of epochs to train")
     parser.add_argument("--embed-file", type=str, required=False, dest="embed_file",
                         help="path to a file holding pre-trained embeddings")

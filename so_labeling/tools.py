@@ -52,7 +52,7 @@ def pick_model(args, dicts):
         STOP_TAG = "<STOP>"
         with open('../../data/dict/word_idx') as f:
             size = len(f.readlines())
-        model = models.BiLSTM_CRF(size, {"B - SUB": 0, "I - SUB": 1, "E - SUB": 2, "B - OBJ": 3, "I - OBJ": 4, "E - OBJ": 5, "O": 6, START_TAG: 7, STOP_TAG: 8}, embedding_dim=200, pos_dim=20, hidden_dim=128)
+        model = models.BiLSTM_CRF(Y, dicts, len(dicts[0]), {"B - SUB": 0, "I - SUB": 1, "E - SUB": 2, "B - OBJ": 3, "I - OBJ": 4, "E - OBJ": 5, "O": 6, START_TAG: 7, STOP_TAG: 8}, embedding_dim=200, pos_dim=20,gpu=args.gpu, hidden_dim=128)
 
     if args.test_model:
         sd = torch.load(args.test_model)

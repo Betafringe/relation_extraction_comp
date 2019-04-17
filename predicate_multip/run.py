@@ -33,7 +33,8 @@ data_generator = RcDataReader(
 def main(args):
     start = time.time()
     args, model, optimizer, params, dicts = init(args)
-    # model = model.cuda()
+    if(args.gpu):
+        model = model.cuda()
     epochs_trained = train_epoches(args, model, optimizer, params, dicts)
     print("TOTAL ELAPSED TIME FOR %s MODEL AND %d EPOCHS: %f" % (args.model, epochs_trained, time.time() - start))
     print("TOTAL ELAPSED TIME FOR %s MODEL: %f" % (args.model, time.time() - start))
@@ -99,7 +100,7 @@ def train(model, optimizer, Y, epoch, n_epochs, batch_size, is_train, dicts, gpu
         data = Variable(torch.LongTensor(word_idx_list)), Variable(torch.LongTensor(postag_list))
         target = Variable(torch.FloatTensor(target))
         if gpu:
-            data = data.cuda()
+            data = data[0].cuda(), data[1].cuda()
             target = target.cuda()
         optimizer.zero_grad()
         output, loss, _ = model(data, target)

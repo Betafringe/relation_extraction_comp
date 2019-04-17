@@ -23,12 +23,13 @@ HIDDEN_DIM = 4
 
 class BaseModel(nn.Module):
 
-    def __init__(self, Y, dicts, embed_file = '', lmbda=0, dropout=0.5, gpu=True, embed_size=100):
+    def __init__(self, Y, dicts, embed_file = '', lmbda=0, dropout=0.5, gpu=True, embed_size=100, embed_pos = 20):
         super(BaseModel, self).__init__()
         torch.manual_seed(1337)
         self.gpu = gpu
         self.Y = Y
         self.embed_size = embed_size
+        self.embed_pos = embed_pos
         self.embed_drop = nn.Dropout(p=dropout)
         self.lmbda = lmbda
 
@@ -46,7 +47,7 @@ class BaseModel(nn.Module):
         pos_size = 24
         p_size = 50
         self.embed_word = nn.Embedding(vocab_size + 2, embed_size, padding_idx=0)
-        self.embed_pos = nn.Embedding(pos_size, embed_size, padding_idx=0)
+        self.embed_pos = nn.Embedding(pos_size, embed_pos, padding_idx=0)
         self.embed_pid = nn.Embedding(p_size, embed_size, padding_idx=0)
 
 
@@ -102,7 +103,7 @@ class VanillaRNN(BaseModel):
         General RNN - can be LSTM or GRU, uni/bi-directional
     """
 
-    def __init__(self, Y, embed_file, dicts, rnn_dim, cell_type, num_layers, gpu, embed_size=200, bidirectional=False):
+    def __init__(self, Y, embed_file, dicts, rnn_dim, cell_type, num_layers, gpu, embed_size=200, embed_pos = 20, bidirectional=False):
         super(VanillaRNN, self).__init__(Y, embed_file, dicts, embed_size=embed_size, gpu=gpu)
         self.gpu = gpu
         self.rnn_dim = rnn_dim
@@ -112,9 +113,9 @@ class VanillaRNN(BaseModel):
 
         # recurrent unit
         if self.cell_type == 'lstm':
-            self.rnn = nn.LSTM(self.embed_size*2, floor(self.rnn_dim/self.num_directions), self.num_layers, bidirectional=bidirectional)
+            self.rnn = nn.LSTM((self.embed_size+self.embed_pos)*2, floor(self.rnn_dim/self.num_directions), self.num_layers, bidirectional=bidirectional)
         else:
-            self.rnn = nn.GRU(self.embed_size*2, floor(self.rnn_dim/self.num_directions), self.num_layers, bidirectional=bidirectional)
+            self.rnn = nn.GRU((self.embed_size+self.embed_pos)*2, floor(self.rnn_dim/self.num_directions), self.num_layers, bidirectional=bidirectional)
         # linear output
         self.final = nn.Linear(self.rnn_dim, Y)
 
@@ -205,14 +206,16 @@ def log_sum_exp(vec):  # vec是1*5, type是Variable
 
 
 class BiLSTM_CRF(nn.Module):
-    def __init__(self, vocab_size, tag_to_ix, embedding_dim, pos_dim, hidden_dim):
+    def __init__(self, Y, dicts, vocab_size, tag_to_ix, embedding_dim, pos_dim, gpu, hidden_dim, batch_size=16):
         super(BiLSTM_CRF, self).__init__()
         self.embedding_dim = embedding_dim
         self.pos_dim = pos_dim
         self.hidden_dim = hidden_dim
-        self.vocab_size = vocab_size
+        self.vocab_size = len(dicts[0])
         self.tag_to_ix = tag_to_ix
         self.tagset_size = len(tag_to_ix)
+        self.gpu = gpu
+        self.batch_size = batch_size
 
         #self.word_embeds = nn.Embedding(vocab_size, embedding_dim)
         pos_size = 24
@@ -239,35 +242,29 @@ class BiLSTM_CRF(nn.Module):
         if self.gpu:
             h_0 = autograd.Variable(torch.cuda.FloatTensor(2, self.batch_size,
                                                   floor(self.hidden_dim / 2)).zero_())
-            if self.cell_type == 'lstm':
-                c_0 = autograd.Variable(torch.cuda.FloatTensor(2, self.batch_size,
-                                                      floor(self.rnn_dim / 2)).zero_())
-                return (h_0, c_0)
-            else:
-                return h_0
+            c_0 = autograd.Variable(torch.cuda.FloatTensor(2, self.batch_size,
+                                                  floor(self.hidden_dim / 2)).zero_())
+            return (h_0, c_0)
         else:
             h_0 = autograd.Variable(torch.randn(self.num_directions * self.num_layers, self.batch_size,
-                                       floor(self.rnn_dim / self.num_directions)))
-            if self.cell_type == 'lstm':
-                c_0 = autograd.Variable(torch.randn(self.num_directions * self.num_layers, self.batch_size,
-                                           floor(self.rnn_dim / self.num_directions)))
-                return (h_0, c_0)
-            else:
-                return h_0
+                                       floor(self.hidden_dim / self.num_directions)))
+            c_0 = autograd.Variable(torch.randn(self.num_directions * self.num_layers, self.batch_size,
+                                       floor(self.hidden_dim / self.num_directions)))
+            return (h_0, c_0)
         # return (autograd.Variable(torch.randn(2, 1, self.hidden_dim // 2)),
         #         autograd.Variable(torch.randn(2, 1, self.hidden_dim // 2)))
 
     # 预测序列的得分
     def _forward_alg(self, feats):
         # Do the forward algorithm to compute the partition function
-        init_alphas = torch.Tensor(1, self.tagset_size).fill_(-10000.)  # 1*5 而且全是-10000
+        init_alphas = torch.cuda.FloatTensor(1, self.tagset_size).fill_(-10000.)  # 1*5 而且全是-10000
 
         # START_TAG has all of the score.
         init_alphas[0][self.tag_to_ix[
             START_TAG]] = 0.  # 因为start tag是4，所以tensor([[-10000., -10000., -10000.,      0., -10000.]])，将start的值为零，表示开始进行网络的传播，
 
         # Wrap in a variable so that we will get automatic backprop
-        forward_var = autograd.Variable(init_alphas)  # 初始状态的forward_var，随着step t变化
+        forward_var = autograd.Variable(torch.cuda.FloatTensor(init_alphas))  # 初始状态的forward_var，随着step t变化
 
         # Iterate through the sentence 会迭代feats的行数次，
         for feat in feats:  # feat的维度是５ 依次把每一行取出来~
@@ -286,6 +283,7 @@ class BiLSTM_CRF(nn.Module):
                 # 第一次迭代时理解：
                 # trans_score所有其他标签到Ｂ标签的概率
                 # 由lstm运行进入隐层再到输出层得到标签Ｂ的概率，emit_score维度是１＊５，5个值是相同的
+
                 next_tag_var = forward_var + trans_score + emit_score
                 # The forward variable for this tag is log-sum-exp of all the
                 # scores.
@@ -305,12 +303,10 @@ class BiLSTM_CRF(nn.Module):
 
         embeds_word = self.embed_word(data[0]).transpose(0, 2)
         embeds_pos = self.embed_pos(data[1]).transpose(0, 2)
-        embeds = torch.cat((embeds_word, embeds_pos), 0).transpose(0, 2)
-
-        embeds = embeds.unsqueeze(1)
+        embeds = torch.cat((embeds_word, embeds_pos), 0).transpose(0, 2).transpose(0,1)
 
         lstm_out, self.hidden = self.lstm(embeds, self.hidden)  # 11*1*4
-        lstm_out = lstm_out.view(len(data), self.hidden_dim)  # 11*4
+        #lstm_out = lstm_out.view(len(data[0]), self.hidden_dim)  # 11*4
 
         lstm_feats = self.hidden2tag(lstm_out)  # 11*5 is a linear layer
 
@@ -319,23 +315,29 @@ class BiLSTM_CRF(nn.Module):
     # 得到gold_seq tag的score 即根据真实的label 来计算一个score，但是因为转移矩阵是随机生成的，故算出来的score不是最理想的值
     def _score_sentence(self, feats, tags):
         # Gives the score of a provided tag sequence #feats 11*5  tag 11 维
-        score = autograd.Variable(torch.Tensor([0]))
-        tags = torch.cat([torch.LongTensor([self.tag_to_ix[START_TAG]]), tags])  # 将START_TAG的标签３拼接到tag序列最前面，这样tag就是12个了
+        score = autograd.Variable(torch.FloatTensor([0]))
+        print(self.tag_to_ix[START_TAG])
+        print(tags)
+        print(tags.size())
+        tags = torch.cat([torch.cuda.FloatTensor([self.tag_to_ix[START_TAG] for _ in range(16)]), tags])  # 将START_TAG的标签３拼接到tag序列最前面，这样tag就是12个了
 
-        for i, feat in enumerate(feats):
-            # self.transitions[tags[i + 1], tags[i]] 实际得到的是从标签i到标签i+1的转移概率
-            # feat[tags[i+1]], feat是step i 的输出结果，有５个值，对应B, I, E, START_TAG, END_TAG, 取对应标签的值
-            # transition【j,i】 就是从i ->j 的转移概率值
-            score = score + self.transitions[tags[i + 1], tags[i]] + feat[tags[i + 1]]
-        score = score + self.transitions[self.tag_to_ix[STOP_TAG], tags[-1]]
-        return score
+        res = []
+        for b in range(0, self.batch_size):
+            for i, feat in enumerate(feats):
+                # self.transitions[tags[i + 1], tags[i]] 实际得到的是从标签i到标签i+1的转移概率
+                # feat[tags[i+1]], feat是step i 的输出结果，有５个值，对应B, I, E, START_TAG, END_TAG, 取对应标签的值
+                # transition【j,i】 就是从i ->j 的转移概率值
+                score = score + self.transitions[tags[b][i + 1], tags[i]] + feat[tags[b][i + 1]]
+            score = score + self.transitions[self.tag_to_ix[STOP_TAG], tags[b][-1]]
+            res.append(score)
+        return res
 
     # 解码，得到预测的序列，以及预测序列的得分
     def _viterbi_decode(self, feats):
         backpointers = []
 
         # Initialize the viterbi variables in log space
-        init_vvars = torch.Tensor(1, self.tagset_size).fill_(-10000.)
+        init_vvars = torch.cuda.FloatTensor(1, self.tagset_size).fill_(-10000.)
         init_vvars[0][self.tag_to_ix[START_TAG]] = 0
 
         # forward_var at step i holds the viterbi variables for step i-1
@@ -379,8 +381,9 @@ class BiLSTM_CRF(nn.Module):
         feats = self._get_lstm_features(sentence)  # 11*5 经过了LSTM+Linear矩阵后的输出，之后作为CRF的输入。
         forward_score = self._forward_alg(feats)  # 0维的一个得分，20.*来着
         gold_score = self._score_sentence(feats, tags)  # tensor([ 4.5836])
-
-        return forward_score - gold_score
+        print(gold_score)
+        loss = self._get_loss(forward_score, gold_score)
+        return  forward_score - gold_score
 
     def forward(self, sentence):  # dont confuse this with _forward_alg above.
         # Get the emission scores from the BiLSTM
