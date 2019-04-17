@@ -41,7 +41,8 @@ def main(args):
     args, model, optimizer, params, dicts = init(args)
     if(args.gpu):
         model = model.cuda()
-    epochs_trained = train_epoches(args, model, optimizer, params, dicts)
+    epochs_trained, model = train_epoches(args, model, optimizer, params, dicts)
+    torch.save(model.state_dict(), 'first_train.model')
 
 
 def init(args):
@@ -81,7 +82,7 @@ def train_epoches(args, model, optimizer, params, dicts):
         # metrics_all = one_epoch(model, optimizer, args.Y, epoch, args.n_epochs, args.batch_size, args.data_path,
         #                         test_only, dicts, model_dir,
         #                         args.samples, args.gpu, args.quiet)
-        metrics = one_epoch(model,
+        metrics, model = one_epoch(model,
                             optimizer,
                             args.Y, epoch,
                             args.n_epochs,
@@ -110,14 +111,14 @@ def train_epoches(args, model, optimizer, params, dicts):
         #         test_only = True
         #         args.test_model = '%s/model_best_%s.pth' % (model_dir, args.criterion)
         #         model = tools.pick_model(args, dicts)
-    return epoch + 1
+    return epoch + 1, model
 
 def one_epoch(model, optimizer, Y, epoch, n_epochs, batch_size, is_train, dicts, gpu, model_dir):
     """
         Wrapper to do a training epoch and test on dev
     """
     if is_train:
-        losses, unseen_code_inds = train(model, optimizer, Y, epoch, batch_size, gpu, dicts)
+        losses, model = train(model, optimizer, Y, epoch, batch_size, gpu, dicts)
         loss = np.mean(losses)
         print("epoch loss: " + str(loss))
     else:
@@ -159,7 +160,7 @@ def one_epoch(model, optimizer, Y, epoch, n_epochs, batch_size, is_train, dicts,
         tpr_te = defaultdict(lambda: [])
     metrics_tr = {'loss': loss}
     metrics_all = (metrics, metrics_te, metrics_tr)
-    return metrics_all
+    return metrics_all, model
 
 def test(args, model, optimizer, params, dicts):
     pass
@@ -182,15 +183,35 @@ def train(model, optimizer, Y, epoch, batch_size, gpu, dicts):
 
     losses = []
     # how often to print some info to stdout
-    print_every = 25
-    model.train()
+    # print_every = 25
+    # model.train()
 
-    gen = DataGen(is_train=True, batch_size=args.batch_size)
-    for batch_idx, features in enumerate(gen):
-        word_idx_list, postag_list, p_idx, label_list = features
+    data_generator = DataReader(
+        wordemb_dict_path='../../data/dict/word_idx',
+        postag_dict_path='../../data/dict/postag_dict',
+        label_dict_path='../../data/dict/label_dict',
+        p_eng_dict_path='../../data/dict/p_eng',
+        train_data_list_path='../../data/train_data.p',
+        test_data_list_path='../../data/dev_data.p'
+    )
+
+    # prepare data reader
+    ttt = data_generator.get_test_reader()
+    for index, features in enumerate(ttt()):
+        input_sent, word_idx_list, postag_list, p_idx, label_list = features
+        # wordemb_dicts = data_generator.get_dict('wordemb_dict')
+        # print(input_sent.encode('utf-8'))
+        # print('1st features:', len(word_idx_list), word_idx_list)
+        # print('2nd features:', len(postag_list), postag_list)
+        # print('3rd features:', len(p_idx), p_idx)
+        # print('4th features:', len(label_list), label_list)
+
+    # gen = DataGen(is_train=True, batch_size=args.batch_size)
+    # for batch_idx, features in enumerate(gen):
+    #     word_idx_list, postag_list, p_idx, label_list = features
         target = label_list
         data = Variable(torch.LongTensor(word_idx_list)), Variable(torch.LongTensor(postag_list)), Variable(torch.LongTensor(p_idx))
-        target = Variable(torch.FloatTensor(target))
+        target = Variable(torch.LongTensor(target))
         if gpu:
             data = data[0].cuda(), data[1].cuda(), data[2].cuda()
             target = target.cuda()
@@ -203,17 +224,18 @@ def train(model, optimizer, Y, epoch, batch_size, gpu, dicts):
 
         neg_log_likelihood = model.neg_log_likelihood(data,
                                                       target)  # tensor([ 15.4958]) 最大的可能的值与 根据随机转移矩阵 计算的真实值 的差
-
+        losses.append(neg_log_likelihood)
         # Step 4. Compute the loss, gradients, and update the parameters by
         # calling optimizer.step()
         neg_log_likelihood.backward()  # 卧槽，这就能更新啦？？？进行了反向传播，算了梯度值。debug中可以看到，transition的_grad 有了值 torch.Size([5, 5])
         optimizer.step()
 
-        losses.append(neg_log_likelihood)
             # print the average loss of the last 10 batches
-        print("Train epoch: {} [batch #{}, batch_size {}, seq length {}]\tLoss: {:.6f}".format(
-            epoch, batch_idx, data.size()[0], data.size()[1], np.mean(losses[-1])))
-    # return losses
+        print_every = 25
+        if(index%print_every == 0):
+            print("Train epoch: {} [sentence_id #{}, seq length {}]\tLoss: {}".format(
+                epoch, index, data[0].size()[0], str(losses[-1])))
+    return losses, model
 
 
 if __name__ == "__main__":

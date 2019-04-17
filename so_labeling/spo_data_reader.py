@@ -332,3 +332,5 @@ if __name__ == '__main__':
         print('2nd features:', len(postag_list), postag_list)
         print('3rd features:', len(p_idx), p_idx)
         print('4th features:', len(label_list), label_list)
+        if(index>5):
+            break
