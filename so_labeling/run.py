@@ -184,7 +184,7 @@ def train(model, optimizer, Y, epoch, batch_size, gpu, dicts):
     losses = []
     # how often to print some info to stdout
     # print_every = 25
-    # model.train()
+    model.train()
 
     data_generator = DataReader(
         wordemb_dict_path='../../data/dict/word_idx',
@@ -199,6 +199,9 @@ def train(model, optimizer, Y, epoch, batch_size, gpu, dicts):
     ttt = data_generator.get_test_reader()
     for index, features in enumerate(ttt()):
         input_sent, word_idx_list, postag_list, p_idx, label_list = features
+        if index%20 == 0:
+            print(index)
+            print(label_list)
         # wordemb_dicts = data_generator.get_dict('wordemb_dict')
         # print(input_sent.encode('utf-8'))
         # print('1st features:', len(word_idx_list), word_idx_list)
@@ -212,6 +215,7 @@ def train(model, optimizer, Y, epoch, batch_size, gpu, dicts):
         target = label_list
         data = Variable(torch.LongTensor(word_idx_list)), Variable(torch.LongTensor(postag_list)), Variable(torch.LongTensor(p_idx))
         target = Variable(torch.LongTensor(target))
+        print(data.size())
         if gpu:
             data = data[0].cuda(), data[1].cuda(), data[2].cuda()
             target = target.cuda()
@@ -222,8 +226,7 @@ def train(model, optimizer, Y, epoch, batch_size, gpu, dicts):
         # optimizer.step()
         #
 
-        neg_log_likelihood = model.neg_log_likelihood(data,
-                                                      target)  # tensor([ 15.4958]) 最大的可能的值与 根据随机转移矩阵 计算的真实值 的差
+        neg_log_likelihood = model.neg_log_likelihood(data, target)  # tensor([ 15.4958]) 最大的可能的值与 根据随机转移矩阵 计算的真实值 的差
         losses.append(neg_log_likelihood)
         # Step 4. Compute the loss, gradients, and update the parameters by
         # calling optimizer.step()
@@ -231,7 +234,7 @@ def train(model, optimizer, Y, epoch, batch_size, gpu, dicts):
         optimizer.step()
 
             # print the average loss of the last 10 batches
-        print_every = 25
+        print_every = 50
         if(index%print_every == 0):
             print("Train epoch: {} [sentence_id #{}, seq length {}]\tLoss: {}".format(
                 epoch, index, data[0].size()[0], str(losses[-1])))

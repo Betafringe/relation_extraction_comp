@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/so_labeling/models.py" line="586" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="d773f037-df60-4c87-9fac-e06faab5d5f7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/relation_extraction_comp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/relation_extraction_comp.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/so_labeling/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/so_labeling/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/so_labeling/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/so_labeling/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/so_labeling/spo_data_reader.py" beforeDir="false" afterPath="$PROJECT_DIR$/so_labeling/spo_data_reader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/so_labeling/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/so_labeling/tools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/so_labeling/train_shell/CNN_train.sh" beforeDir="false" afterPath="$PROJECT_DIR$/so_labeling/train_shell/CNN_train.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/so_labeling/train_shell/RNN_train.sh" beforeDir="false" afterPath="$PROJECT_DIR$/so_labeling/train_shell/RNN_train.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -88,106 +88,109 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="317876838">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.1" value="1" />
+          <entry key="project.open.time.2" value="2" />
+          <entry key="project.open.time.49" value="1" />
+          <entry key="project.opened" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="py" value="21" />
+          <entry key="sh" value="15" />
+          <entry key="txt" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Bash" value="9" />
+          <entry key="PLAIN_TEXT" value="7" />
+          <entry key="Python" value="21" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="py" value="2452" />
+          <entry key="sh" value="82" />
+          <entry key="txt" value="21" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Bash" value="46" />
+          <entry key="PLAIN_TEXT" value="57" />
+          <entry key="Python" value="2452" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/so_labeling/spo_data_reader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="290" column="42" selection-start-line="290" selection-start-column="42" selection-end-line="290" selection-end-column="42" />
+            <state relative-caret-position="313">
+              <caret line="323" lean-forward="true" selection-start-line="323" selection-end-line="323" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/so_labeling/run.py">
+        <entry file="file://$PROJECT_DIR$/so_labeling/sample.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="186" column="13" selection-start-line="186" selection-start-column="13" selection-end-line="186" selection-end-column="13" />
+            <state relative-caret-position="260">
+              <caret line="164" column="1" lean-forward="true" selection-start-line="164" selection-start-column="1" selection-end-line="164" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/predicate_multip/run.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="92" column="20" lean-forward="true" selection-start-line="92" selection-start-column="20" selection-end-line="92" selection-end-column="20" />
-              <folding>
-                <marker date="1554539456451" expanded="true" signature="746:751" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/so_labeling/spo_train.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-610">
-              <folding>
-                <element signature="e#785#796#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/predicate_multip/multip_data_reader.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="37" column="28" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/so_labeling/train_shell/CNN_train.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="81" selection-start-column="81" selection-end-column="81" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/so_labeling/tools.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="63" column="67" selection-start-line="63" selection-start-column="67" selection-end-line="63" selection-end-column="67" />
-              <folding>
-                <element signature="e#159#169#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/constant.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="29">
-              <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/predicate_multip/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="754">
-              <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="38" selection-end-column="74" />
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/so_labeling/spo_infer.py">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/so_labeling/run.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="80">
+              <caret line="226" column="9" lean-forward="true" selection-start-line="226" selection-start-column="9" selection-end-line="226" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/so_labeling/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="103">
-              <caret line="129" column="85" selection-start-line="129" selection-start-column="85" selection-end-line="129" selection-end-column="85" />
+            <state relative-caret-position="-289">
+              <caret line="434" column="20" lean-forward="true" selection-start-line="434" selection-start-column="20" selection-end-line="434" selection-end-column="20" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
+                <element signature="e#480#3316#0" />
+                <element signature="e#3351#6964#0" />
+                <element signature="e#7657#7687#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/so_labeling/train_shell/RNN_train.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="40">
+              <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/predicate_multip/train_script.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="8" lean-forward="true" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -203,11 +206,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>argv</find>
+      <find>p_eng</find>
+      <find>label_dict</find>
+      <find>_load_p_eng_dict</find>
+      <find>_load_label_dict</find>
       <find>data_generator</find>
-      <find>dicts</find>
+      <find>_p_map_eng_dict</find>
+      <find>START_TAG</find>
+      <find>rnn_dim</find>
+      <find>torch.T</find>
+      <find>torch.</find>
+      <find>tag_to_ix</find>
+      <find>tags =</find>
+      <find>Embedding</find>
+      <find>for f</find>
+      <find>print(</find>
+      <find>batch_size</find>
+      <find>batch</find>
+      <find>init_hidden</find>
+      <find>lstm</find>
+      <find>embedding_dim</find>
+      <find>lstm_feature</find>
+      <find>nn.Embedding</find>
+      <find>_forward_alg</find>
+      <find>nn.Em</find>
+      <find>_score_sentence</find>
       <find>print</find>
-      <find>load_label_dict</find>
+      <find>init_hid</find>
+      <find>model</find>
+      <find>BiLSTM_CRF</find>
+      <find>cuda</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -219,17 +247,20 @@
         <option value="$PROJECT_DIR$/lib/get_vocab.py" />
         <option value="$PROJECT_DIR$/so_labeling/model.py" />
         <option value="$PROJECT_DIR$/persistence.py" />
-        <option value="$PROJECT_DIR$/predicate_multip/train_script.sh" />
         <option value="$PROJECT_DIR$/len.txt" />
         <option value="$PROJECT_DIR$/constant.py" />
         <option value="$PROJECT_DIR$/predicate_multip/multip_data_reader.py" />
         <option value="$PROJECT_DIR$/predicate_multip/run.py" />
         <option value="$PROJECT_DIR$/predicate_multip/models.py" />
+        <option value="$PROJECT_DIR$/predicate_multip/train_script.sh" />
         <option value="$PROJECT_DIR$/so_labeling/tools.py" />
-        <option value="$PROJECT_DIR$/so_labeling/run.py" />
         <option value="$PROJECT_DIR$/so_labeling/spo_data_reader.py" />
-        <option value="$PROJECT_DIR$/so_labeling/train_shell/CNN_train.sh" />
         <option value="$PROJECT_DIR$/so_labeling/models.py" />
+        <option value="$PROJECT_DIR$/so_labeling/RNN_train.sh" />
+        <option value="$PROJECT_DIR$/so_labeling/train_shell/CNN_train.sh" />
+        <option value="$PROJECT_DIR$/so_labeling/train_shell/RNN_train.sh" />
+        <option value="$PROJECT_DIR$/so_labeling/run.py" />
+        <option value="$PROJECT_DIR$/so_labeling/sample.py" />
       </list>
     </option>
   </component>
@@ -282,10 +313,15 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../caml-mimic" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../caml_mimic" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/so_labeling/train_shell" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -300,7 +336,29 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.spo_data_reader">
-    <configuration name="multip_data_reader" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="RNN_train.sh" type="BashConfigurationType" factoryName="Bash" temporary="true">
+      <module name="relation_extraction_comp" />
+      <option name="INTERPRETER_OPTIONS" value="bash" />
+      <option name="INTERPRETER_PATH" value="/usr/bin/env" />
+      <option name="PROJECT_INTERPRETER" value="false" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/so_labeling/train_shell" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/so_labeling/train_shell/RNN_train.sh" />
+      <option name="PARAMETERS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train_script.sh" type="BashConfigurationType" factoryName="Bash" temporary="true">
+      <module name="relation_extraction_comp" />
+      <option name="INTERPRETER_OPTIONS" value="bash" />
+      <option name="INTERPRETER_PATH" value="/usr/bin/env" />
+      <option name="PROJECT_INTERPRETER" value="false" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/predicate_multip" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/predicate_multip/train_script.sh" />
+      <option name="PARAMETERS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="sample" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="relation_extraction_comp" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -308,12 +366,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/predicate_multip" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/so_labeling" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/predicate_multip/multip_data_reader.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/so_labeling/sample.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -334,7 +391,6 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/so_labeling/spo_data_reader.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -344,32 +400,18 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest in run.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="relation_extraction_comp" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/so_labeling/run.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <list>
-      <item itemvalue="Python.multip_data_reader" />
+      <item itemvalue="Bash.train_script.sh" />
+      <item itemvalue="Python.sample" />
       <item itemvalue="Python.spo_data_reader" />
-      <item itemvalue="Python tests.pytest in run.py" />
+      <item itemvalue="Bash.RNN_train.sh" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.spo_data_reader" />
-        <item itemvalue="Python.multip_data_reader" />
-        <item itemvalue="Python tests.pytest in run.py" />
+        <item itemvalue="Bash.RNN_train.sh" />
+        <item itemvalue="Bash.train_script.sh" />
+        <item itemvalue="Python.sample" />
       </list>
     </recent_temporary>
   </component>
@@ -384,6 +426,28 @@
       <option name="presentableId" value="Default" />
       <updated>1554292818151</updated>
     </task>
+    <task id="LOCAL-00001" summary="bilstm-crf">
+      <created>1555078722007</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1555078722007</updated>
+    </task>
+    <task id="LOCAL-00002" summary="bilstm-crf">
+      <created>1555496991097</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1555496991097</updated>
+    </task>
+    <task id="LOCAL-00003" summary="bilstm-crf cuda_slow">
+      <created>1555507749596</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1555507749596</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -393,25 +457,37 @@
     <history-entry file="pytest_in_run_py - 2019.04.04 at 10h 27m 50s.xml">
       <configuration name="pytest in run.py" configurationId="tests" />
     </history-entry>
+    <history-entry file="pytest_in_run_py - 2019.04.12 at 22h 10m 46s.xml">
+      <configuration name="pytest in run.py" configurationId="tests" />
+    </history-entry>
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21983914" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17303494" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.4348442" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989083" weight="0.40585774" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49945414" weight="0.3294979" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.2583682" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.5807365" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5010917" side_tool="true" weight="0.5502092" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4989083" visible="true" weight="0.23640168" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -427,121 +503,148 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="bilstm-crf" />
+    <MESSAGE value="bilstm-crf cuda_slow" />
+    <option name="LAST_COMMIT_MESSAGE" value="bilstm-crf cuda_slow" />
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lib/get_vocab.py" />
     <entry file="file://$PROJECT_DIR$/so_labeling/model.py" />
+    <entry file="file://$PROJECT_DIR$/persistence.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/constant.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/so_labeling/spo_model.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/len.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="1" column="17" lean-forward="true" selection-start-line="1" selection-start-column="17" selection-end-line="1" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predicate_multip/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3980">
+          <caret line="213" column="40" lean-forward="true" selection-start-line="213" selection-start-column="40" selection-end-line="213" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predicate_multip/multip_data_reader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1140">
+          <caret line="64" column="39" selection-start-line="64" selection-start-column="39" selection-end-line="64" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/predicate_multip/tools.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87">
-          <caret line="6" column="35" selection-end-line="67" selection-end-column="17" />
+        <state relative-caret-position="600">
+          <caret line="51" column="20" lean-forward="true" selection-start-line="51" selection-start-column="20" selection-end-line="51" selection-end-column="20" />
           <folding>
             <element signature="e#160#170#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistence.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-          <folding>
-            <element signature="e#36#46#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/predicate_multip/train_script.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29">
-          <caret line="1" column="25" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/len.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29">
-          <caret line="1" column="17" lean-forward="true" selection-start-line="1" selection-start-column="17" selection-end-line="1" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/constant.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29">
-          <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/so_labeling/spo_train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-610">
-          <folding>
-            <element signature="e#785#796#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/predicate_multip/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="754">
-          <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="38" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/predicate_multip/multip_data_reader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="37" column="28" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/so_labeling/tools.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="63" column="67" selection-start-line="63" selection-start-column="67" selection-end-line="63" selection-end-column="67" />
+        <state relative-caret-position="347">
+          <caret line="49" column="29" lean-forward="true" selection-start-line="49" selection-start-column="29" selection-end-line="49" selection-end-column="29" />
           <folding>
             <element signature="e#159#169#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/so_labeling/train_shell/RNN_train.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="70" selection-start-column="70" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/so_labeling/train_shell/CNN_train.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/predicate_multip/run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="92" column="20" lean-forward="true" selection-start-line="92" selection-start-column="20" selection-end-line="92" selection-end-column="20" />
+        <state relative-caret-position="340">
+          <caret line="94" column="17" selection-start-line="94" selection-start-column="16" selection-end-line="94" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/so_labeling/spo_train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-680">
+          <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/so_labeling/train_shell/RNN_train.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/predicate_multip/train_script.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="8" lean-forward="true" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/so_labeling/sample.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="164" column="1" lean-forward="true" selection-start-line="164" selection-start-column="1" selection-end-line="164" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/so_labeling/spo_infer.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/so_labeling/spo_data_reader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="323" lean-forward="true" selection-start-line="323" selection-end-line="323" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/so_labeling/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-289">
+          <caret line="434" column="20" lean-forward="true" selection-start-line="434" selection-start-column="20" selection-end-line="434" selection-end-column="20" />
           <folding>
-            <marker date="1554539456451" expanded="true" signature="746:751" ph="..." />
+            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#480#3316#0" />
+            <element signature="e#3351#6964#0" />
+            <element signature="e#7657#7687#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/so_labeling/run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="186" column="13" selection-start-line="186" selection-start-column="13" selection-end-line="186" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/so_labeling/spo_data_reader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="290" column="42" selection-start-line="290" selection-start-column="42" selection-end-line="290" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/so_labeling/train_shell/CNN_train.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="81" selection-start-column="81" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/so_labeling/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="129" column="85" selection-start-line="129" selection-start-column="85" selection-end-line="129" selection-end-column="85" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="80">
+          <caret line="226" column="9" lean-forward="true" selection-start-line="226" selection-start-column="9" selection-end-line="226" selection-end-column="9" />
         </state>
       </provider>
     </entry>
